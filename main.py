@@ -19,6 +19,7 @@ from constants import (
     PROCESS_NAME,
     SOUND_DIR
 )
+
 from exceptions import AppConnectionError
 
 
@@ -123,7 +124,7 @@ def run_bot(**kwargs):
     tap_count = 0
     while True:
         increase_tap_value(
-            kwargs['increase_tap'], PROCESS_NAME, BASE_OFFSET, POINTER_CHAIN
+            kwargs['increase'], PROCESS_NAME, BASE_OFFSET, POINTER_CHAIN
         )
         pet_position = get_target_position(mute=mute)
         tap_pet(pet_position, mute=mute)
@@ -137,7 +138,7 @@ def run_bot(**kwargs):
 
 def increase_tap(**kwargs):
     increase_tap_value(
-        kwargs['increase_tap'], PROCESS_NAME, BASE_OFFSET, POINTER_CHAIN
+        kwargs['increase'], PROCESS_NAME, BASE_OFFSET, POINTER_CHAIN
     )
     if not kwargs['mute']:
         PlaySound(str(SOUND_DIR / 'tap.wav'), SND_FILENAME)
@@ -151,18 +152,24 @@ MODE_TO_FUNCTION = {
 
 def main():
     configure_logging()
+    logging.info('Старт работы программы')
     try:
         arg_parser = configure_argument_parser(MODE_TO_FUNCTION.keys())
         args = arg_parser.parse_args()
         logging.info(f'Аргументы командной строки: {args}')
         kwargs = vars(args)
         MODE_TO_FUNCTION[kwargs.pop('mode')](**kwargs)
+    except KeyboardInterrupt:
+        logging.info('Работа программы прервана пользователем.')
+        if not kwargs['mute']:
+            PlaySound(str(SOUND_DIR / 'bye.wav'), SND_FILENAME)
     except Exception as error:
         logging.exception(
             f'Ошибка в работе программы: {error}', stack_info=True
         )
         if not kwargs['mute']:
             PlaySound(str(SOUND_DIR / 'bye.wav'), SND_FILENAME)
+    logging.info('Программа завершила работу')
 
 
 if __name__ == '__main__':

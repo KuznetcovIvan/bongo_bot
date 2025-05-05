@@ -2,7 +2,14 @@ import argparse
 import logging
 from logging.handlers import RotatingFileHandler
 
-from constants import DATE_TIME_FORMAT, LOG_DIR, LOG_FILE
+from constants import (
+    DATE_TIME_FORMAT,
+    DELAY_DEFAULT,
+    INCREASE_DEFAULT,
+    LOG_DIR,
+    LOG_FILE,
+    SLEEP_DEFAULT
+)
 
 
 def configure_argument_parser(available_models):
@@ -26,24 +33,27 @@ def configure_argument_parser(available_models):
     )
     parser.add_argument(
         '-i',
-        '--increase-tap',
+        '--increase',
         type=int,
-        default=1000,
-        help='Количество тапов для увеличения (по умолчанию: 1000)'
+        default=INCREASE_DEFAULT,
+        help=('Количество тапов для увеличения '
+              f'(по умолчанию: {INCREASE_DEFAULT})')
     )
     parser.add_argument(
         '-s',
         '--sleep',
         type=int,
-        default=30,
-        help='Время между кликами в минутах (по умолчанию: 30)'
+        default=SLEEP_DEFAULT,
+        help=('Время между кликами в минутах '
+              f'(по умолчанию: {SLEEP_DEFAULT})')
     )
     parser.add_argument(
         '-d',
         '--delay',
         type=int,
-        default=5,
-        help='Дополнительная задержка в секундах (по умолчанию: 5)'
+        default=DELAY_DEFAULT,
+        help=('Дополнительная задержка в секундах '
+              f'(по умолчанию: {DELAY_DEFAULT})')
     )
     return parser
 
