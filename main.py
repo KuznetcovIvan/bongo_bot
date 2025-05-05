@@ -8,6 +8,8 @@ from pywinauto.application import Application
 from pywinauto.findwindows import ElementNotFoundError
 from tqdm import tqdm
 from pynput import mouse
+import pymem
+import pymem.process
 
 from exceptions import AppConnectionError
 
@@ -15,6 +17,7 @@ BASE_DIR = Path(__file__).parent
 SOUND_DIR = BASE_DIR / 'sound'
 CALIBRATION_FILE = BASE_DIR / 'calibration.txt'
 APP_NAME = 'BongoCat'
+PROCESS_NAME = f'{APP_NAME}.exe'
 x, y = 0, 0
 
 
@@ -66,8 +69,7 @@ def get_target_position(calibrate=False):
     else:
         with open(CALIBRATION_FILE, 'r', encoding='utf-8') as f:
             x_str, y_str = f.read().strip().split()
-            x = int(x_str)
-            y = int(y_str)        
+            x, y = int(x_str), int(y_str)
     return window.left + x, window.top + y
 
 
