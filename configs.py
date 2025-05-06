@@ -13,7 +13,7 @@ from constants import (
 
 
 def configure_argument_parser(available_models):
-    parser = argparse.ArgumentParser(description='Bongo Cat Bot')
+    parser = argparse.ArgumentParser(description='Bongo Bot')
     parser.add_argument(
         'mode',
         choices=available_models,

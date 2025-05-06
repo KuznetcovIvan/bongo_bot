@@ -1,9 +1,7 @@
-# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Environments
 .env
 .venv
 env/
@@ -12,7 +10,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# for Visual Studio Code
 .history/
 logs/
 .vscode/
