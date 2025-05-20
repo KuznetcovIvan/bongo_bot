@@ -8,52 +8,44 @@ from constants import (
     INCREASE_DEFAULT,
     LOG_DIR,
     LOG_FILE,
+    LOG_FORMAT,
     SLEEP_DEFAULT
 )
 
+PARSER_DESCRIPTION = 'Bongo Bot'
+MODE_HELP = 'Режимы работы'
+MUTE_HELP = 'Отключить звук'
+CALIBRATION_HELP = 'Откалибровать положение сундука'
+INCREASE_HELP = 'Количество тапов для увеличения (по умолчанию: {})'
+SLEEP_HELP = 'Время между кликами в минутах (по умолчанию: {})'
+DELAY_HELP = 'Дополнительная задержка в секундах (по умолчанию: {})'
+
 
 def configure_argument_parser(available_models):
-    parser = argparse.ArgumentParser(description='Bongo Bot')
+    parser = argparse.ArgumentParser(description=PARSER_DESCRIPTION)
     parser.add_argument(
-        'mode',
-        choices=available_models,
-        help='Режимы работы'
+        'mode', choices=available_models,
+        help=MODE_HELP
     )
     parser.add_argument(
-        '-m',
-        '--mute',
-        action='store_true',
-        help='Отключить звук'
+        '-m', '--mute', action='store_true',
+        help=MUTE_HELP
     )
     parser.add_argument(
-        '-c',
-        '--calibration',
-        action='store_true',
-        help='Откалибровать положение сундука'
+        '-c', '--calibration', action='store_true',
+        help=CALIBRATION_HELP
     )
     parser.add_argument(
-        '-i',
-        '--increase',
-        type=int,
-        default=INCREASE_DEFAULT,
-        help=('Количество тапов для увеличения '
-              f'(по умолчанию: {INCREASE_DEFAULT})')
+        '-i', '--increase', type=int, default=INCREASE_DEFAULT,
+        help=INCREASE_HELP.format(INCREASE_DEFAULT)
     )
     parser.add_argument(
-        '-s',
-        '--sleep',
-        type=int,
-        default=SLEEP_DEFAULT,
-        help=('Время между кликами в минутах '
-              f'(по умолчанию: {SLEEP_DEFAULT})')
+        '-s', '--sleep', type=int, default=SLEEP_DEFAULT,
+        help=SLEEP_HELP.format(SLEEP_DEFAULT)
     )
     parser.add_argument(
-        '-d',
-        '--delay',
-        type=int,
-        default=DELAY_DEFAULT,
-        help=('Дополнительная задержка в секундах '
-              f'(по умолчанию: {DELAY_DEFAULT})')
+        '-d', '--delay', type=int, default=DELAY_DEFAULT,
+        help=DELAY_HELP.format(DELAY_DEFAULT)
     )
     return parser
 
@@ -65,7 +57,7 @@ def configure_logging():
     )
     logging.basicConfig(
         datefmt=DATE_TIME_FORMAT,
-        format='%(asctime)s - [%(levelname)s] - %(message)s',
+        format=LOG_FORMAT,
         level=logging.INFO,
         handlers=(rotating_handler, logging.StreamHandler()),
         encoding='utf-8'
